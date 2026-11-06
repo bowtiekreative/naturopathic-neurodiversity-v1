@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Young+Serif&display=swap">
+<style>
+body{margin:0;background:#FAF8F4;color:#2D2B29;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#685AC8}a:hover{color:#342468}
+::placeholder{color:#7A7570}
+*{transition:none!important;animation:none!important}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-size:17px;line-height:1.55">
+
+<header style="background:#FAF8F4;border-bottom:1px solid #E4DDF0">
+  <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;background:none;border:0;padding:4px;cursor:pointer;text-align:left;border-radius:8px" style-focus="outline:3px solid #947AF5;outline-offset:2px">
+      <span style="position:relative;width:32px;height:32px;display:block;flex:none">
+        <span style="position:absolute;left:0;top:8px;width:22px;height:22px;border-radius:50%;background:#7EA55C"></span>
+        <span style="position:absolute;right:0;top:0;width:18px;height:18px;border-radius:50%;background:#947AF5"></span>
+      </span>
+      <span style="display:flex;flex-direction:column;line-height:1.1">
+        <span style="font-family:'Young Serif',Georgia,serif;font-size:21px;color:#342468">Naturopathic Neurodiversity</span>
+        <span style="font-size:13px;color:#54725A;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Doctor directory · US + Canada</span>
+      </span>
+    </button>
+    <nav style="display:flex;gap:4px;flex-wrap:wrap;margin-left:auto;align-items:center">
+      <button onClick="{{ goResults }}" style="background:none;border:0;font:inherit;font-size:16px;color:#342468;padding:10px 14px;border-radius:8px;cursor:pointer" style-hover="background:#EFEAF9" style-focus="outline:3px solid #947AF5">Find a doctor</button>
+      <button onClick="{{ goAbout }}" style="background:none;border:0;font:inherit;font-size:16px;color:#342468;padding:10px 14px;border-radius:8px;cursor:pointer" style-hover="background:#EFEAF9" style-focus="outline:3px solid #947AF5">About</button>
+      <button onClick="{{ goContact }}" style="background:none;border:0;font:inherit;font-size:16px;color:#342468;padding:10px 14px;border-radius:8px;cursor:pointer" style-hover="background:#EFEAF9" style-focus="outline:3px solid #947AF5">Contact</button>
+      <button onClick="{{ goJoin }}" style="background:#FFFFFF;border:1px solid #CFC6E6;font:inherit;font-size:16px;color:#342468;padding:9px 16px;border-radius:999px;cursor:pointer;margin-left:6px" style-hover="background:#EFEAF9" style-focus="outline:3px solid #947AF5;outline-offset:2px">For practitioners</button>
+    </nav>
+  </div>
+</header>
+
+<main style="flex:1">
+
+<sc-if value="{{ homeA }}" hint-placeholder-val="{{ true }}">
+  <section style="background:#342468;color:#FFFFFF;position:relative;overflow:hidden">
+    <span style="position:absolute;right:-140px;top:-120px;width:440px;height:440px;border-radius:50%;background:#685AC8"></span>
+    <span style="position:absolute;right:160px;bottom:-190px;width:300px;height:300px;border-radius:50%;background:#54725A"></span>
+    <div style="max-width:1200px;margin:0 auto;padding:84px 24px 92px;position:relative">
+      <p style="margin:0 0 18px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#AEDE9E;font-weight:700">For kids, teens and adults</p>
+      <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(38px,5.4vw,62px);line-height:1.1;margin:0;max-width:800px;text-wrap:balance">Find a naturopathic doctor who gets how your brain works.</h1>
+      <p style="font-size:20px;max-width:600px;margin:22px 0 40px;color:#EDE8FB;text-wrap:pretty">Every doctor here has training in ADHD, autism and sensory needs. Read their profile, then send a message. No account needed.</p>
+      <div style="background:#FFFFFF;border-radius:16px;padding:10px;display:flex;gap:8px;flex-wrap:wrap;max-width:820px">
+        <label style="flex:2 1 240px;display:flex;flex-direction:column;padding:6px 12px">
+          <span style="font-size:14px;font-weight:700;color:#54725A">Name or clinic</span>
+          <input value="{{ q }}" onChange="{{ onQ }}" onKeyDown="{{ onEnter }}" placeholder="e.g. Okafor" style="border:0;font:inherit;font-size:18px;color:#2D2B29;padding:4px 0;outline:none;background:transparent;width:100%"></input>
+        </label>
+        <label style="flex:1 1 180px;display:flex;flex-direction:column;padding:6px 12px;border-left:1px solid #E4DDF0">
+          <span style="font-size:14px;font-weight:700;color:#54725A">Near</span>
+          <select value="{{ near }}" onChange="{{ onNear }}" style="border:0;font:inherit;font-size:18px;color:#2D2B29;padding:4px 0;outline:none;background:transparent">
+            <sc-for list="{{ nearOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+          </select>
+        </label>
+        <button onClick="{{ goResults }}" style="flex:0 0 auto;background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;font-size:18px;padding:14px 30px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #AEDE9E;outline-offset:2px">Search</button>
+      </div>
+    </div>
+  </section>
+  <section style="max-width:1200px;margin:0 auto;padding:60px 24px 20px">
+    <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:28px;color:#342468;margin:0 0 18px">Or start with what you'd like help with</h2>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <sc-for list="{{ quickFocus }}" as="f" hint-placeholder-count="8">
+        <button onClick="{{ f.onClick }}" style="background:#FFFFFF;border:1px solid #CFC6E6;border-radius:999px;font:inherit;font-size:17px;color:#342468;padding:12px 20px;cursor:pointer" style-hover="background:#AEDE9E;border-color:#7EA55C" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ f.label }}</button>
+      </sc-for>
+    </div>
+  </section>
+  <section style="max-width:1200px;margin:0 auto;padding:44px 24px 72px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px">
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:#EFEAF9;color:#342468;font-weight:700;align-items:center;justify-content:center">1</span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">Search and filter</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">Narrow by focus, age group, distance, virtual visits, languages and billing.</p>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:#EFEAF9;color:#342468;font-weight:700;align-items:center;justify-content:center">2</span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">Read the profile</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">Plain-language details: who they see, how visits work, what a first visit costs.</p>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:#EFEAF9;color:#342468;font-weight:700;align-items:center;justify-content:center">3</span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">Send a message</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">It goes straight to the clinic. They reply by email or phone, whichever you choose.</p>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ homeB }}" hint-placeholder-val="{{ false }}">
+  <section style="background:#342468;color:#FFFFFF">
+    <div style="max-width:900px;margin:0 auto;padding:72px 24px 40px;text-align:center">
+      <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(36px,5vw,56px);line-height:1.1;margin:0;text-wrap:balance">Let's find a doctor who fits.</h1>
+      <p style="font-size:20px;margin:18px auto 0;max-width:560px;color:#EDE8FB;text-wrap:pretty">Three quick questions. You can change anything later.</p>
+    </div>
+  </section>
+  <section style="background:linear-gradient(#342468 0 120px,#FAF8F4 120px)">
+    <div style="max-width:900px;margin:0 auto;padding:0 24px 72px">
+      <div style="background:#FFFFFF;border-radius:20px;border:1px solid #E4DDF0;padding:36px;display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:20px;color:#342468;display:flex;gap:12px;align-items:center"><span style="display:inline-flex;width:34px;height:34px;border-radius:50%;background:#AEDE9E;color:#2D2B29;align-items:center;justify-content:center;font-size:16px;flex:none">1</span>Who is the care for?</h2>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ guideWho }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:17px;padding:12px 20px;border-radius:12px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:20px;color:#342468;display:flex;gap:12px;align-items:center"><span style="display:inline-flex;width:34px;height:34px;border-radius:50%;background:#AEDE9E;color:#2D2B29;align-items:center;justify-content:center;font-size:16px;flex:none">2</span>What would you like help with? <span style="font-weight:400;color:#4A4744;font-size:16px">Pick any</span></h2>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ focusChips }}" as="c" hint-placeholder-count="8">
+              <button onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:17px;padding:12px 20px;border-radius:12px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:20px;color:#342468;display:flex;gap:12px;align-items:center"><span style="display:inline-flex;width:34px;height:34px;border-radius:50%;background:#AEDE9E;color:#2D2B29;align-items:center;justify-content:center;font-size:16px;flex:none">3</span>How would you like to meet?</h2>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <sc-for list="{{ guideMeet }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:17px;padding:12px 20px;border-radius:12px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ c.label }}</button>
+            </sc-for>
+            <label style="display:flex;align-items:center;gap:10px;margin-left:6px">
+              <span style="font-size:16px;color:#4A4744">near</span>
+              <select value="{{ near }}" onChange="{{ onNear }}" style="font:inherit;font-size:17px;padding:11px 12px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5">
+                <sc-for list="{{ nearOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid #E4DDF0;padding-top:26px">
+          <button onClick="{{ resetFilters }}" style="background:none;border:0;font:inherit;font-size:16px;color:#685AC8;text-decoration:underline;cursor:pointer;padding:8px 0">Start over</button>
+          <button onClick="{{ goResults }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:12px;font:inherit;font-weight:700;font-size:18px;padding:16px 30px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ showCountLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ homeC }}" hint-placeholder-val="{{ false }}">
+  <section style="background:#342468;color:#FFFFFF">
+    <div style="max-width:1200px;margin:0 auto;padding:44px 24px;display:flex;gap:28px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap">
+      <div style="max-width:620px">
+        <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,46px);line-height:1.12;margin:0;text-wrap:balance">Neurodiversity-affirming naturopathic doctors near you.</h1>
+        <p style="font-size:18px;margin:12px 0 0;color:#EDE8FB">Browse the map or the list. Message any doctor directly.</p>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px;flex:0 1 340px">
+        <span style="font-size:14px;font-weight:700;color:#AEDE9E">Near</span>
+        <select value="{{ near }}" onChange="{{ onNear }}" style="font:inherit;font-size:18px;padding:12px 14px;border:0;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #AEDE9E">
+          <sc-for list="{{ nearOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+        </select>
+      </label>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ showResults }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1200px;margin:0 auto;padding:36px 24px 72px">
+    <sc-if value="{{ isResultsPage }}" hint-placeholder-val="{{ false }}">
+      <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:36px;color:#342468;margin:0 0 24px">Find a doctor</h1>
+    </sc-if>
+    <div style="display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start">
+      <aside style="flex:1 1 250px;max-width:290px;display:flex;flex-direction:column;gap:24px">
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Name or clinic</span>
+          <input value="{{ q }}" onChange="{{ onQ }}" placeholder="Search" style="font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+        </label>
+        <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:8px">
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Near</span>
+            <select value="{{ near }}" onChange="{{ onNear }}" style="font:inherit;font-size:15px;padding:10px 8px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5">
+              <sc-for list="{{ nearOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Within</span>
+            <select value="{{ within }}" onChange="{{ onWithin }}" style="font:inherit;font-size:15px;padding:10px 8px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5">
+              <sc-for list="{{ withinOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+            </select>
+          </label>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #E4DDF0;border-bottom:1px solid #E4DDF0;padding:14px 0">
+          <sc-for list="{{ toggles }}" as="t" hint-placeholder-count="3">
+            <button onClick="{{ t.onClick }}" aria-pressed="{{ t.on }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;font:inherit;font-size:16px;color:#2D2B29;padding:4px 0;cursor:pointer;text-align:left;border-radius:6px" style-focus="outline:3px solid #947AF5;outline-offset:2px">{{ t.label }}<span style="width:42px;height:24px;border-radius:999px;background:{{ t.track }};position:relative;flex:none;display:block"><span style="position:absolute;top:3px;left:{{ t.knob }};width:18px;height:18px;border-radius:50%;background:#FFFFFF;display:block"></span></span></button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Age group</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ ageChips }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:6px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Focus</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ focusChips }}" as="c" hint-placeholder-count="8">
+              <button onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:6px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Language</span>
+          <select value="{{ lang }}" onChange="{{ onLang }}" style="font:inherit;font-size:15px;padding:10px 8px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5">
+            <sc-for list="{{ langOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+          </select>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Insurance and billing</span>
+          <select value="{{ billing }}" onChange="{{ onBilling }}" style="font:inherit;font-size:15px;padding:10px 8px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5">
+            <sc-for list="{{ billingOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+          </select>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:15px;font-weight:700;color:#342468">Doctor's gender</span>
+          <select value="{{ gender }}" onChange="{{ onGender }}" style="font:inherit;font-size:15px;padding:10px 8px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5">
+            <sc-for list="{{ genderOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+          </select>
+        </label>
+        <button onClick="{{ resetFilters }}" style="align-self:flex-start;background:none;border:0;font:inherit;font-size:16px;color:#685AC8;text-decoration:underline;cursor:pointer;padding:4px 0">Clear all filters</button>
+      </aside>
+
+      <div style="flex:3 1 480px;min-width:0;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <p style="margin:0;font-size:18px;color:#2D2B29"><strong>{{ countLabel }}</strong> {{ nearLabel }}</p>
+          <div role="group" aria-label="View" style="display:flex;background:#EFEAF9;border-radius:10px;padding:4px;gap:4px">
+            <button onClick="{{ setList }}" aria-pressed="{{ isList }}" style="font:inherit;font-size:15px;border:0;border-radius:8px;padding:8px 18px;cursor:pointer;background:{{ listBg }};color:#342468;font-weight:700" style-focus="outline:3px solid #947AF5">List</button>
+            <button onClick="{{ setMap }}" aria-pressed="{{ isMap }}" style="font:inherit;font-size:15px;border:0;border-radius:8px;padding:8px 18px;cursor:pointer;background:{{ mapBg }};color:#342468;font-weight:700" style-focus="outline:3px solid #947AF5">Map</button>
+          </div>
+        </div>
+
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px dashed #CFC6E6;border-radius:16px;padding:40px;text-align:center">
+            <p style="margin:0 0 6px;font-size:20px;color:#342468;font-weight:700">No doctors match all of these filters.</p>
+            <p style="margin:0 0 18px;color:#4A4744">Try a wider distance, or turn off one filter.</p>
+            <button onClick="{{ resetFilters }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;padding:12px 22px;cursor:pointer" style-hover="background:#342468">Clear all filters</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showList }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ docs }}" as="d" hint-placeholder-count="4">
+              <article style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:20px;display:flex;gap:18px;flex-wrap:wrap">
+                <div style="width:88px;height:88px;border-radius:14px;flex:none;background:repeating-linear-gradient(45deg,#EFEAF9 0 8px,#F7F4FC 8px 16px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#685AC8">headshot</div>
+                <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;justify-content:space-between">
+                    <h3 style="margin:0;font-size:21px;color:#342468">{{ d.name }}, {{ d.cred }} <span style="font-weight:400;font-size:15px;color:#4A4744">{{ d.pron }}</span></h3>
+                    <span style="font-size:15px;color:#54725A;font-weight:700">{{ d.distLabel }}</span>
+                  </div>
+                  <p style="margin:0;color:#4A4744">{{ d.clinic }} · {{ d.place }}</p>
+                  <p style="margin:0;color:#2D2B29">Sees {{ d.agesLabel }} · {{ d.focusLabel }}</p>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                    <sc-for list="{{ d.badges }}" as="b" hint-placeholder-count="2">
+                      <span style="font-size:14px;padding:3px 10px;border-radius:999px;background:{{ b.bg }};color:{{ b.fg }}">{{ b.label }}</span>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+                    <button onClick="{{ d.onOpen }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;font-size:16px;padding:10px 18px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">View profile and message</button>
+                  </div>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showMap }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:16px;flex-wrap:wrap-reverse;align-items:flex-start">
+            <ol style="list-style:none;margin:0;padding:0;flex:1 1 240px;display:flex;flex-direction:column;gap:6px;max-height:560px;overflow:auto">
+              <sc-for list="{{ docs }}" as="d" hint-placeholder-count="5">
+                <li>
+                  <button onClick="{{ d.onPin }}" aria-pressed="{{ d.sel }}" style="width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;background:{{ d.rowBg }};border:1px solid {{ d.rowBd }};border-radius:12px;padding:10px 12px;cursor:pointer" style-focus="outline:3px solid #947AF5;outline-offset:1px">
+                    <span style="flex:none;width:28px;height:28px;border-radius:50%;background:{{ d.pinBg }};color:#FFFFFF;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ d.num }}</span>
+                    <span style="display:flex;flex-direction:column;min-width:0">
+                      <span style="font-weight:700;color:#342468">{{ d.name }}</span>
+                      <span style="font-size:14px;color:#4A4744">{{ d.place }} {{ d.distShort }}</span>
+                    </span>
+                  </button>
+                </li>
+              </sc-for>
+            </ol>
+            <div style="flex:2 1 380px;min-width:0;display:flex;flex-direction:column;gap:14px">
+              <div style="position:relative;aspect-ratio:16/11;border-radius:16px;overflow:hidden;border:1px solid #CFDDC4;background:repeating-linear-gradient(135deg,#EEF4E9 0 10px,#F6F9F2 10px 20px)">
+                <span style="position:absolute;left:12px;bottom:10px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#54725A;background:#F6F9F2;padding:2px 6px;border-radius:4px">map tiles · US + Canada</span>
+                <sc-for list="{{ docs }}" as="d" hint-placeholder-count="0">
+                  <button onClick="{{ d.onPin }}" aria-label="{{ d.name }}" style="position:absolute;left:{{ d.x }};top:{{ d.y }};transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:{{ d.pinBg }};border:3px solid #FFFFFF;color:#FFFFFF;font:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px rgba(45,43,41,.3);z-index:{{ d.z }}" style-focus="outline:3px solid #342468;outline-offset:2px">{{ d.num }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+                  <div style="width:64px;height:64px;border-radius:12px;flex:none;background:repeating-linear-gradient(45deg,#EFEAF9 0 8px,#F7F4FC 8px 16px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#685AC8">headshot</div>
+                  <div style="flex:1 1 220px;min-width:0">
+                    <p style="margin:0;font-weight:700;font-size:19px;color:#342468">{{ sel.name }}, {{ sel.cred }}</p>
+                    <p style="margin:2px 0 0;color:#4A4744">{{ sel.clinic }} · {{ sel.place }}</p>
+                    <p style="margin:2px 0 0;color:#2D2B29;font-size:15px">Sees {{ sel.agesLabel }} · {{ sel.focusLabel }}</p>
+                  </div>
+                  <button onClick="{{ sel.onOpen }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;font-size:16px;padding:10px 18px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">View profile and message</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="background:#EFEAF9;border-radius:16px;padding:20px 22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <p style="margin:0;color:#342468;max-width:520px">Not sure who to pick? Send one message and we'll suggest up to three doctors who fit.</p>
+          <button onClick="{{ goContact }}" style="background:#FFFFFF;color:#342468;border:1px solid #CFC6E6;border-radius:10px;font:inherit;font-weight:700;font-size:16px;padding:10px 18px;cursor:pointer" style-hover="background:#FAF8F4" style-focus="outline:3px solid #947AF5">Ask for help choosing</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ showFormPage }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1200px;margin:0 auto;padding:32px 24px 80px">
+    <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ goResults }}" style="background:none;border:0;font:inherit;font-size:16px;color:#685AC8;cursor:pointer;padding:6px 0;margin-bottom:18px;text-decoration:underline">← Back to results</button>
+    </sc-if>
+    <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start">
+      <div style="flex:3 1 420px;min-width:0">
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+            <div style="width:140px;height:140px;border-radius:20px;flex:none;background:repeating-linear-gradient(45deg,#EFEAF9 0 10px,#F7F4FC 10px 20px);display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#685AC8">headshot</div>
+            <div style="flex:1 1 260px;min-width:0">
+              <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,42px);color:#342468;margin:0;line-height:1.15">{{ p.name }}, {{ p.cred }}</h1>
+              <p style="margin:6px 0 0;color:#4A4744;font-size:18px">{{ p.pron }} · {{ p.clinic }} · {{ p.place }}</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+                <sc-for list="{{ p.badges }}" as="b" hint-placeholder-count="2">
+                  <span style="font-size:14px;padding:4px 12px;border-radius:999px;background:{{ b.bg }};color:{{ b.fg }}">{{ b.label }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <h2 style="font-size:20px;color:#342468;margin:36px 0 8px">About</h2>
+          <p style="margin:0;font-size:18px;max-width:640px;text-wrap:pretty">{{ p.bio }}</p>
+          <dl style="margin:32px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#E4DDF0;border:1px solid #E4DDF0;border-radius:16px;overflow:hidden">
+            <sc-for list="{{ p.facts }}" as="f" hint-placeholder-count="6">
+              <div style="background:#FFFFFF;padding:18px 20px">
+                <dt style="font-size:14px;font-weight:700;color:#54725A;text-transform:uppercase;letter-spacing:.05em">{{ f.k }}</dt>
+                <dd style="margin:4px 0 0;color:#2D2B29">{{ f.v }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+        </sc-if>
+        <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+          <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,44px);color:#342468;margin:12px 0 14px;line-height:1.15">Send us a message</h1>
+          <p style="margin:0;font-size:18px;max-width:520px;text-wrap:pretty">Pick a doctor, or choose "Help me choose" and our team will suggest up to three who fit what you describe.</p>
+          <p style="margin:18px 0 0;font-size:18px;max-width:520px;text-wrap:pretty">Referring a patient? Choose "A patient I'm referring" and add your clinic details in the message.</p>
+        </sc-if>
+      </div>
+
+      <div style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E4DDF0;border-radius:20px;padding:28px">
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onSend }}" style="display:flex;flex-direction:column;gap:18px">
+            <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:26px;color:#342468;margin:0">{{ formTitle }}</h2>
+            <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:15px;font-weight:700;color:#342468">Doctor</span>
+                <select value="{{ cDoc }}" onChange="{{ onCDoc }}" style="font:inherit;font-size:16px;padding:12px 10px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5">
+                  <sc-for list="{{ docOpts }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+                </select>
+              </label>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Who is this for?</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ forChips }}" as="c" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Your name</span>
+              <input required="{{ true }}" autoComplete="name" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Email</span>
+              <input type="email" required="{{ true }}" autoComplete="email" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Phone <span style="font-weight:400;color:#4A4744">(optional)</span></span>
+              <input type="tel" autoComplete="tel" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+            </label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Best way to reply</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ replyChips }}" as="c" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:15px;font-weight:700;color:#342468">Message</span>
+              <textarea required="{{ true }}" rows="5" placeholder="A few lines about what you're looking for. No need to share records yet." style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%;resize:vertical" style-focus="outline:3px solid #947AF5;outline-offset:1px"></textarea>
+            </label>
+            <button type="submit" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:12px;font:inherit;font-weight:700;font-size:18px;padding:14px 24px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">Send message</button>
+            <p style="margin:0;font-size:14px;color:#4A4744;text-wrap:pretty">Your message goes to the clinic by email. No account is created. For a medical emergency, call 911.</p>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;padding:12px 0">
+            <span style="width:48px;height:48px;border-radius:50%;background:#AEDE9E;display:flex;align-items:center;justify-content:center;font-size:22px;color:#2D2B29;font-weight:700">✓</span>
+            <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:28px;color:#342468;margin:0">Message sent</h2>
+            <p style="margin:0;font-size:18px;text-wrap:pretty">{{ sentLine }}</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+              <button onClick="{{ goResults }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;padding:12px 20px;cursor:pointer" style-hover="background:#342468">Back to doctors</button>
+              <button onClick="{{ sendAnother }}" style="background:#FFFFFF;color:#342468;border:1px solid #CFC6E6;border-radius:10px;font:inherit;font-weight:700;padding:12px 20px;cursor:pointer" style-hover="background:#EFEAF9">Send another</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <section style="background:#342468;color:#FFFFFF;position:relative;overflow:hidden">
+    <span style="position:absolute;right:-120px;bottom:-160px;width:380px;height:380px;border-radius:50%;background:#54725A"></span>
+    <div style="max-width:1200px;margin:0 auto;padding:76px 24px 84px;position:relative">
+      <p style="margin:0 0 16px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#AEDE9E;font-weight:700">About this directory</p>
+      <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(36px,5vw,56px);line-height:1.1;margin:0;max-width:820px;text-wrap:balance">Finding care shouldn't mean explaining your brain from scratch every time.</h1>
+      <p style="font-size:20px;max-width:620px;margin:22px 0 0;color:#EDE8FB;text-wrap:pretty">We list naturopathic doctors across the US and Canada who have real training in neurodevelopmental care, and who treat neurodivergence as a difference to support, not something to fix.</p>
+    </div>
+  </section>
+
+  <section style="max-width:1200px;margin:0 auto;padding:68px 24px 20px">
+    <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:32px;color:#342468;margin:0 0 8px">What "neurodiversity-affirming" means here</h2>
+    <p style="margin:0 0 28px;color:#4A4744;font-size:18px;max-width:640px">Every doctor listed agrees to these in writing.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:block;width:14px;height:14px;border-radius:50%;background:#947AF5"></span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">Support, not cures</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">Goals are about sleep, digestion, energy, anxiety and comfort. No one here promises to cure autism or ADHD.</p>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:block;width:14px;height:14px;border-radius:50%;background:#947AF5"></span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">You set the pace</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">Sensory needs, stimming, shutdowns and communication preferences are respected in every visit.</p>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E4DDF0;border-radius:16px;padding:26px">
+        <span style="display:block;width:14px;height:14px;border-radius:50%;background:#947AF5"></span>
+        <h3 style="font-size:20px;color:#342468;margin:14px 0 6px">Part of your team</h3>
+        <p style="margin:0;color:#4A4744;text-wrap:pretty">Doctors work alongside your family doctor, pediatrician, psychiatrist or therapists, and never ask you to stop prescribed care.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1200px;margin:0 auto;padding:56px 24px 20px;display:flex;gap:44px;flex-wrap:wrap;align-items:flex-start">
+    <div style="flex:1 1 300px;max-width:420px">
+      <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:32px;color:#342468;margin:0 0 10px">How we vet every listing</h2>
+      <p style="margin:0;color:#4A4744;font-size:18px;text-wrap:pretty">Each application is reviewed by a person, not an algorithm. Listings are rechecked every year.</p>
+    </div>
+    <ol style="flex:2 1 420px;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px;background:#E4DDF0;border:1px solid #E4DDF0;border-radius:16px;overflow:hidden">
+      <li style="background:#FFFFFF;padding:22px 24px;display:flex;gap:18px">
+        <span style="flex:none;width:36px;height:36px;border-radius:50%;background:#AEDE9E;color:#2D2B29;font-weight:700;display:flex;align-items:center;justify-content:center">1</span>
+        <div><p style="margin:0;font-weight:700;color:#342468">License check</p><p style="margin:2px 0 0;color:#4A4744">We confirm an active ND or NMD license with the regulator in each state or province where they practice.</p></div>
+      </li>
+      <li style="background:#FFFFFF;padding:22px 24px;display:flex;gap:18px">
+        <span style="flex:none;width:36px;height:36px;border-radius:50%;background:#AEDE9E;color:#2D2B29;font-weight:700;display:flex;align-items:center;justify-content:center">2</span>
+        <div><p style="margin:0;font-weight:700;color:#342468">Training in neurodevelopmental care</p><p style="margin:2px 0 0;color:#4A4744">Doctors show continuing education in areas like ADHD, autism, PDA, sensory processing or learning differences.</p></div>
+      </li>
+      <li style="background:#FFFFFF;padding:22px 24px;display:flex;gap:18px">
+        <span style="flex:none;width:36px;height:36px;border-radius:50%;background:#AEDE9E;color:#2D2B29;font-weight:700;display:flex;align-items:center;justify-content:center">3</span>
+        <div><p style="margin:0;font-weight:700;color:#342468">A written commitment</p><p style="margin:2px 0 0;color:#4A4744">They sign on to the three principles above. If we hear concerns from patients, we follow up and may remove a listing.</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <section style="max-width:1200px;margin:0 auto;padding:56px 24px 72px">
+    <div style="background:#EFEAF9;border-radius:20px;padding:36px;display:flex;gap:36px;flex-wrap:wrap">
+      <div style="flex:1 1 300px">
+        <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:28px;color:#342468;margin:0 0 10px">What naturopathic care can help with</h2>
+        <p style="margin:0;color:#2D2B29;text-wrap:pretty">Day-to-day things that make life harder: sleep, digestion and feeding, energy, anxiety, and sensory comfort. Visits are usually longer than a typical medical appointment, so there's time to talk.</p>
+      </div>
+      <div style="flex:1 1 300px">
+        <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:28px;color:#342468;margin:0 0 10px">What it doesn't replace</h2>
+        <p style="margin:0;color:#2D2B29;text-wrap:pretty">Diagnosis, prescriptions you already rely on, therapy, or emergency care. Rules on what NDs can do vary by state and province, and each profile lists where a doctor is licensed.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
+      <button onClick="{{ goResults }}" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:12px;font:inherit;font-weight:700;font-size:18px;padding:14px 26px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">Find a doctor</button>
+      <button onClick="{{ goContact }}" style="background:#FFFFFF;color:#342468;border:1px solid #CFC6E6;border-radius:12px;font:inherit;font-weight:700;font-size:18px;padding:14px 26px;cursor:pointer" style-hover="background:#EFEAF9" style-focus="outline:3px solid #947AF5;outline-offset:2px">Ask us a question</button>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isJoin }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1200px;margin:0 auto;padding:44px 24px 80px;display:flex;gap:44px;flex-wrap:wrap;align-items:flex-start">
+    <div style="flex:2 1 320px;min-width:0">
+      <p style="margin:0 0 12px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#54725A;font-weight:700">For practitioners</p>
+      <h1 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,44px);color:#342468;margin:0 0 16px;line-height:1.15">List your practice</h1>
+      <p style="margin:0 0 28px;font-size:18px;text-wrap:pretty">We review every application by hand and reply by email. Families and clinicians contact you directly. There's no portal to manage.</p>
+      <h2 style="font-size:18px;color:#342468;margin:0 0 12px">What we check</h2>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+        <li style="display:flex;gap:12px"><span style="flex:none;width:12px;height:12px;border-radius:50%;background:#7EA55C;margin-top:7px"></span>An active ND or NMD license where you practice</li>
+        <li style="display:flex;gap:12px"><span style="flex:none;width:12px;height:12px;border-radius:50%;background:#7EA55C;margin-top:7px"></span>Continuing education in neurodevelopmental care</li>
+        <li style="display:flex;gap:12px"><span style="flex:none;width:12px;height:12px;border-radius:50%;background:#7EA55C;margin-top:7px"></span>A commitment to work alongside each patient's existing care team</li>
+      </ul>
+    </div>
+    <div style="flex:3 1 420px;min-width:0;background:#FFFFFF;border:1px solid #E4DDF0;border-radius:20px;padding:30px">
+      <sc-if value="{{ joinNotSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ onJoin }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Full name</span>
+            <input required="{{ true }}" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Credential</span>
+            <select style="font:inherit;font-size:16px;padding:12px 10px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29" style-focus="outline:3px solid #947AF5"><option>ND</option><option>NMD</option></select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">License number</span>
+            <input required="{{ true }}" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Licensed in (state or province)</span>
+            <input required="{{ true }}" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Clinic name</span>
+            <input style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">City</span>
+            <input required="{{ true }}" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Email for patient messages</span>
+            <input type="email" required="{{ true }}" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Languages</span>
+            <input placeholder="e.g. English, French" style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%" style-focus="outline:3px solid #947AF5;outline-offset:1px"></input>
+          </label>
+          <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Ages you see</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ joinAgeChips }}" as="c" hint-placeholder-count="3">
+                <button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Focus areas</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ joinFocusChips }}" as="c" hint-placeholder-count="8">
+                <button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:15px;font-weight:700;color:#342468">Visits you offer</span>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ joinVisitChips }}" as="c" hint-placeholder-count="3">
+                <button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.on }}" style="font:inherit;font-size:15px;padding:8px 14px;border-radius:999px;cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.bd }}" style-focus="outline:3px solid #947AF5;outline-offset:1px">{{ c.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:15px;font-weight:700;color:#342468">How do you approach neurodivergent patients?</span>
+            <textarea rows="4" required="{{ true }}" placeholder="A short note in your own words. This helps us write your profile." style="font:inherit;font-size:16px;padding:12px 14px;border:1px solid #CFC6E6;border-radius:10px;background:#FFFFFF;color:#2D2B29;width:100%;resize:vertical" style-focus="outline:3px solid #947AF5;outline-offset:1px"></textarea>
+          </label>
+          <div style="grid-column:1/-1;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <button type="submit" style="background:#685AC8;color:#FFFFFF;border:0;border-radius:12px;font:inherit;font-weight:700;font-size:18px;padding:14px 28px;cursor:pointer" style-hover="background:#342468" style-focus="outline:3px solid #947AF5;outline-offset:2px">Submit for review</button>
+            <span style="font-size:14px;color:#4A4744">We'll email you within 10 business days.</span>
+          </div>
+        </form>
+      </sc-if>
+      <sc-if value="{{ joinSent }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;padding:12px 0">
+          <span style="width:48px;height:48px;border-radius:50%;background:#AEDE9E;display:flex;align-items:center;justify-content:center;font-size:22px;color:#2D2B29;font-weight:700">✓</span>
+          <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:28px;color:#342468;margin:0">Application received</h2>
+          <p style="margin:0;font-size:18px;text-wrap:pretty">Thank you. We'll verify your license and email you within 10 business days, usually with a draft profile for you to approve.</p>
+          <button onClick="{{ goHome }}" style="align-self:flex-start;background:#685AC8;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;padding:12px 20px;cursor:pointer;margin-top:6px" style-hover="background:#342468">Back to home</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <section style="background:#AEDE9E">
+    <div style="max-width:1200px;margin:0 auto;padding:52px 24px;display:flex;gap:28px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <div style="max-width:640px">
+        <h2 style="font-family:'Young Serif',Georgia,serif;font-weight:400;font-size:30px;color:#2D2B29;margin:0 0 8px">Are you a naturopathic doctor?</h2>
+        <p style="margin:0;color:#2D2B29;text-wrap:pretty">If you support neurodivergent patients, apply to be listed. Every listing is checked by hand.</p>
+      </div>
+      <button onClick="{{ goJoin }}" style="background:#2D2B29;color:#FFFFFF;border:0;border-radius:10px;font:inherit;font-weight:700;padding:14px 24px;cursor:pointer" style-hover="background:#54725A" style-focus="outline:3px solid #342468;outline-offset:2px">List your practice</button>
+    </div>
+  </section>
+</sc-if>
+</main>
+
+<footer style="background:#2D2B29;color:#E9E6E1">
+  <div style="max-width:1200px;margin:0 auto;padding:32px 24px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+    <p style="margin:0;font-size:15px;max-width:560px;text-wrap:pretty">This directory doesn't give medical advice. Naturopathic care works best alongside your family doctor or pediatrician.</p>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:15px">
+      <button onClick="{{ goResults }}" style="background:none;border:0;font:inherit;color:#AEDE9E;cursor:pointer;padding:4px 0">Find a doctor</button>
+      <button onClick="{{ goAbout }}" style="background:none;border:0;font:inherit;color:#AEDE9E;cursor:pointer;padding:4px 0">About</button>
+      <button onClick="{{ goContact }}" style="background:none;border:0;font:inherit;color:#AEDE9E;cursor:pointer;padding:4px 0">Contact</button>
+      <button onClick="{{ goJoin }}" style="background:none;border:0;font:inherit;color:#AEDE9E;cursor:pointer;padding:4px 0">For practitioners</button>
+    </div>
+  </div>
+</footer>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;right:16px;bottom:16px;z-index:20;background:#FFFFFF;border:1px solid #CFC6E6;border-radius:14px;padding:8px;display:flex;gap:4px;align-items:center;box-shadow:0 4px 16px rgba(52,36,104,.15);font-size:14px">
+    <span style="padding:0 8px;color:#4A4744;font-family:ui-monospace,Menlo,monospace;font-size:12px">Home layout</span>
+    <sc-for list="{{ layoutOpts }}" as="l" hint-placeholder-count="3">
+      <button onClick="{{ l.onClick }}" aria-pressed="{{ l.on }}" style="font:inherit;font-size:14px;border:0;border-radius:8px;padding:6px 10px;cursor:pointer;background:{{ l.bg }};color:{{ l.fg }}">{{ l.label }}</button>
+    </sc-for>
+  </div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;homeLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;'A'|'B'|'C'&quot;}}">
+const DOCS=[
+{id:'okafor',name:'Dr. Amara Okafor',cred:'ND',pron:'she/her',clinic:'Riverside Family Naturopathic',city:'Ottawa',region:'ON',lic:'Ontario',lat:45.42,lng:-75.70,x:72,y:38,ages:['Kids','Teens'],focus:['ADHD','Sensory','Sleep'],langs:['English','French'],billing:['Direct billing'],virtual:true,accepting:true,ndId:true,gender:'Woman',fee:'90-minute first visit, $245 CAD',bio:"I work with kids and teens who are tired of being told to try harder. We start with what daily life actually looks like: sleep, food, school and sensory load. Then we build small changes that fit your family, and I'll coordinate with your pediatrician or OT when that helps."},
+{id:'marchetti',name:'Dr. Leo Marchetti',cred:'ND',pron:'he/him',clinic:'Queen West Integrative',city:'Toronto',region:'ON',lic:'Ontario',lat:43.65,lng:-79.38,x:67,y:47,ages:['Adults'],focus:['ADHD','Autism','Anxiety'],langs:['English','Italian'],billing:['Direct billing'],virtual:true,accepting:false,ndId:false,gender:'Man',fee:'75-minute first visit, $220 CAD',bio:"Many of my patients were diagnosed as adults and are figuring out what support actually helps. I focus on energy, focus and anxiety, and I work alongside your prescriber rather than around them."},
+{id:'raman',name:'Dr. Priya Raman',cred:'NMD',pron:'she/her',clinic:'Little Oak Pediatric Wellness',city:'Austin',region:'TX',lic:'Texas (virtual only in other states)',lat:30.27,lng:-97.74,x:50,y:86,ages:['Kids','Teens'],focus:['Autism','PDA','Gut health'],langs:['English','Tamil'],billing:['Superbill (out-of-network)'],virtual:true,accepting:true,ndId:true,gender:'Woman',fee:'60-minute first visit, $210 USD',bio:"I'm autistic and the parent of a PDA kid. Visits are low-demand: your child can play, pace or stay off camera. We focus on digestion, sleep and nervous-system regulation, at your family's pace."},
+{id:'whitfield',name:'Dr. Sam Whitfield',cred:'ND',pron:'they/them',clinic:'Fernwood Naturopathic',city:'Portland',region:'OR',lic:'Oregon and Washington',lat:45.52,lng:-122.68,x:8,y:46,ages:['Teens','Adults'],focus:['ADHD','Autism','Sensory'],langs:['English'],billing:['Insurance (in-network)'],virtual:true,accepting:true,ndId:true,gender:'Nonbinary',fee:'Covered by most Oregon plans; $180 USD self-pay',bio:"I see teens and adults, including a lot of LGBTQ+ neurodivergent folks. Expect a quiet room, dimmable lights and written notes after every visit so you don't have to remember everything."},
+{id:'leclerc',name:'Dr. Hannah Leclerc',cred:'ND',pron:'she/her',clinic:'Clinique Saint-Denis',city:'Montréal',region:'QC',lic:'Québec',lat:45.50,lng:-73.57,x:79,y:31,ages:['Kids'],focus:['Dyslexia','Sensory','Sleep'],langs:['French','English'],billing:['Direct billing'],virtual:false,accepting:true,ndId:false,gender:'Woman',fee:'60-minute first visit, $190 CAD',bio:"I see young children in person, often alongside their speech-language pathologist or school team. Visits are play-based and short, and parents leave with one or two clear next steps."},
+{id:'bell',name:'Dr. Marcus Bell',cred:'ND',pron:'he/him',clinic:'Capitol Hill Naturopathic',city:'Seattle',region:'WA',lic:'Washington',lat:47.61,lng:-122.33,x:10,y:33,ages:['Adults'],focus:['ADHD','Anxiety','Sleep'],langs:['English'],billing:['Insurance (in-network)'],virtual:true,accepting:true,ndId:false,gender:'Man',fee:'Covered by most Washington plans; $195 USD self-pay',bio:"I help adults with ADHD sort out sleep, focus and burnout. I keep plans short and practical, and we review them together every few weeks."},
+{id:'tanaka',name:'Dr. Yuki Tanaka',cred:'ND',pron:'she/her',clinic:'Kitsilano Natural Health',city:'Vancouver',region:'BC',lic:'British Columbia',lat:49.28,lng:-123.12,x:8,y:22,ages:['Kids','Teens','Adults'],focus:['Autism','Gut health','Sensory'],langs:['English','Japanese'],billing:['Direct billing'],virtual:true,accepting:false,ndId:true,gender:'Woman',fee:'75-minute first visit, $230 CAD',bio:"I see whole families, which makes it easier when siblings or parents are neurodivergent too. Much of my work is around feeding, digestion and sensory comfort."},
+{id:'ruiz',name:'Dr. Elena Ruiz',cred:'ND',pron:'she/her',clinic:'Highline Family Medicine',city:'Denver',region:'CO',lic:'Colorado',lat:39.74,lng:-104.99,x:36,y:56,ages:['Kids','Teens'],focus:['ADHD','PDA','Anxiety'],langs:['English','Spanish'],billing:['Superbill (out-of-network)'],virtual:true,accepting:true,ndId:false,gender:'Woman',fee:'60-minute first visit, $200 USD',bio:"Atiendo en español e inglés. I work with families of kids and teens with ADHD and PDA, with a focus on reducing daily stress at home and school."},
+{id:'feldman',name:'Dr. Noah Feldman',cred:'ND',pron:'he/him',clinic:'Lakeside Naturopathic',city:'Burlington',region:'VT',lic:'Vermont',lat:44.48,lng:-73.21,x:81,y:42,ages:['Adults'],focus:['Autism','Sensory','Gut health'],langs:['English','Hebrew'],billing:['Insurance (in-network)'],virtual:true,accepting:true,ndId:true,gender:'Man',fee:'Covered by most Vermont plans; $175 USD self-pay',bio:"I'm an autistic adult who sees autistic adults. We can talk by message before your first visit if phone calls are hard, and visits can be fully virtual."},
+{id:'rahman',name:'Dr. Aisha Rahman',cred:'ND',pron:'she/her',clinic:'Bow River Naturopathic',city:'Calgary',region:'AB',lic:'Alberta',lat:51.05,lng:-114.07,x:24,y:18,ages:['Kids','Teens'],focus:['ADHD','Dyslexia','Sleep'],langs:['English','Arabic','Urdu'],billing:['Direct billing'],virtual:false,accepting:true,ndId:false,gender:'Woman',fee:'60-minute first visit, $185 CAD',bio:"I see school-age kids in person, often working with tutors and learning specialists. Sleep is usually where we start, because everything else gets easier after that."},
+{id:'holloway',name:'Dr. Grace Holloway',cred:'ND',pron:'she/her',clinic:'Harbourview Naturopathic',city:'Halifax',region:'NS',lic:'Nova Scotia',lat:44.65,lng:-63.57,x:93,y:36,ages:['Teens','Adults'],focus:['Autism','Anxiety','PDA'],langs:['English'],billing:['Direct billing'],virtual:true,accepting:true,ndId:true,gender:'Woman',fee:'75-minute first visit, $210 CAD',bio:"I work with teens and adults who mask a lot and are exhausted from it. We go slowly, and you set the agenda for every visit."},
+{id:'cho',name:'Dr. Daniel Cho',cred:'ND',pron:'he/him',clinic:'Mission Hills Pediatric Naturopathy',city:'San Diego',region:'CA',lic:'California',lat:32.72,lng:-117.16,x:16,y:78,ages:['Kids'],focus:['ADHD','Autism','Gut health'],langs:['English','Korean'],billing:['Superbill (out-of-network)'],virtual:true,accepting:false,ndId:false,gender:'Man',fee:'60-minute first visit, $225 USD',bio:"I see young children and their parents together. Most of my families come for help with picky eating, digestion and big feelings around transitions."}
+];
+const FOCI=['ADHD','Autism','PDA','Sensory','Dyslexia','Anxiety','Sleep','Gut health'];
+const AGES=['Kids','Teens','Adults'];
+const CITIES={};DOCS.forEach(d=>{CITIES[d.city+', '+d.region]=[d.lat,d.lng];});
+const NEAR=['Anywhere',...Object.keys(CITIES).sort()];
+const WITHIN={'25 km (15 mi)':25,'100 km (60 mi)':100,'500 km (300 mi)':500,'Any distance':null};
+const hav=(a,b)=>{const t=Math.PI/180,dl=(b[0]-a[0])*t,dg=(b[1]-a[1])*t,h=Math.sin(dl/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dg/2)**2;return 12742*Math.asin(Math.sqrt(h));};
+const chip=(label,on,onClick)=>({label,on,onClick,bg:on?'#342468':'#FFFFFF',fg:on?'#FFFFFF':'#342468',bd:on?'#342468':'#CFC6E6'});
+const BLANK={q:'',near:'Anywhere',within:'Any distance',focus:[],ages:[],virtual:false,accepting:false,ndId:false,lang:'Any',billing:'Any',gender:'Any',guideWho:null,guideMeet:'Either'};
+
+class Component extends DCLogic {
+  constructor(p){super(p);const layout=(p&&p.homeLayout)||'A';
+    this.state={screen:'home',layout,view:layout==='C'?'map':'list',...BLANK,selId:null,mapSel:null,cFor:'Myself',cReply:'Email',cDoc:'Help me choose',sent:false,joinSent:false,joinFocus:[],joinAges:[],joinVisits:[]};}
+  componentDidUpdate(prev){if(prev.homeLayout!==this.props.homeLayout&&this.props.homeLayout)this.setLayout(this.props.homeLayout);}
+  setLayout(l){this.setState({layout:l,view:l==='C'?'map':'list'});}
+  go(screen,extra){this.setState({screen,...(extra||{})});window.scrollTo(0,0);}
+  tog(k,v){this.setState(s=>({[k]:s[k].includes(v)?s[k].filter(x=>x!==v):[...s[k],v]}));}
+  filtered(){const s=this.state,ref=CITIES[s.near],lim=WITHIN[s.within],q=s.q.trim().toLowerCase();
+    let r=DOCS.map(d=>({...d,dist:ref?hav(ref,[d.lat,d.lng]):null})).filter(d=>
+      (!q||(d.name+' '+d.clinic+' '+d.city+' '+d.region).toLowerCase().includes(q))&&
+      (!s.focus.length||s.focus.some(f=>d.focus.includes(f)))&&
+      (!s.ages.length||s.ages.some(a=>d.ages.includes(a)))&&
+      (!s.virtual||d.virtual)&&(!s.accepting||d.accepting)&&(!s.ndId||d.ndId)&&
+      (s.lang==='Any'||d.langs.includes(s.lang))&&(s.billing==='Any'||d.billing.includes(s.billing))&&(s.gender==='Any'||d.gender===s.gender)&&
+      (!lim||d.dist<=lim||(s.virtual&&d.virtual)));
+    if(ref)r.sort((a,b)=>a.dist-b.dist);return r;}
+  badges(d){const b=[];b.push(d.accepting?{label:'Accepting new patients',bg:'#AEDE9E',fg:'#2D2B29'}:{label:'Waitlist only',bg:'#F1EEE8',fg:'#4A4744'});
+    if(d.virtual)b.push({label:'Virtual visits',bg:'#EFEAF9',fg:'#342468'});
+    if(d.ndId)b.push({label:'Neurodivergent practitioner',bg:'#EFEAF9',fg:'#342468'});return b;}
+  view(d,i,selId){const km=d.dist,sel=d.id===selId;
+    const distLabel=km==null?'':km<5?'In your city':Math.round(km)+' km · '+Math.round(km*0.621)+' mi';
+    return {...d,num:i+1,sel,place:d.city+', '+d.region,distLabel,distShort:distLabel?'· '+distLabel:'',agesLabel:d.ages.join(', ').toLowerCase(),focusLabel:d.focus.join(' · '),badges:this.badges(d),
+      x:d.x+'%',y:d.y+'%',pinBg:sel?'#342468':'#685AC8',z:sel?3:1,rowBg:sel?'#EFEAF9':'#FFFFFF',rowBd:sel?'#685AC8':'#E4DDF0',
+      onOpen:()=>this.go('profile',{selId:d.id,sent:false}),onPin:()=>this.setState({mapSel:d.id})};}
+  renderVals(){
+    const s=this.state,set=k=>e=>this.setState({[k]:e.target.value}),flip=k=>()=>this.setState(t=>({[k]:!t[k]}));
+    const list=this.filtered(),selId=list.find(d=>d.id===s.mapSel)?s.mapSel:(list[0]&&list[0].id);
+    const docs=list.map((d,i)=>this.view(d,i,selId)),sel=docs.find(d=>d.sel);
+    const pd=DOCS.find(d=>d.id===s.selId)||DOCS[0];
+    const p={...this.view(pd,0,null),facts:[{k:'Ages seen',v:pd.ages.join(', ')},{k:'Focus areas',v:pd.focus.join(', ')},{k:'Visits',v:pd.virtual?'In person or virtual':'In person only'},{k:'Licensed in',v:pd.lic},{k:'Languages',v:pd.langs.join(', ')},{k:'Billing',v:pd.billing.join(', ')},{k:'First visit',v:pd.fee},{k:'Clinic',v:pd.clinic+', '+pd.city+', '+pd.region}]};
+    const n=list.length,isHome=s.screen==='home',isContact=s.screen==='contact',isProfile=s.screen==='profile';
+    const langs=['Any',...[...new Set(DOCS.flatMap(d=>d.langs))].sort()];
+    const who=[['My child (0–12)',['Kids']],['My teen',['Teens']],['Me, an adult',['Adults']],["A patient I'm referring",[]]];
+    const meet=['In person','Virtual','Either'];
+    const sentTo=isContact?(s.cDoc==='Help me choose'?'Our team':s.cDoc):pd.name;
+    return {
+      isHome,homeA:isHome&&s.layout==='A',homeB:isHome&&s.layout==='B',homeC:isHome&&s.layout==='C',
+      showResults:s.screen==='results'||(isHome&&s.layout==='C'),isResultsPage:s.screen==='results',
+      isProfile,isContact,showFormPage:isProfile||isContact,isJoin:s.screen==='join',isAbout:s.screen==='about',goAbout:()=>this.go('about'),
+      goHome:()=>this.go('home'),goResults:()=>this.go('results'),goContact:()=>this.go('contact',{sent:false}),goJoin:()=>this.go('join',{joinSent:false}),
+      q:s.q,onQ:set('q'),onEnter:e=>{if(e.key==='Enter')this.go('results');},near:s.near,onNear:set('near'),nearOpts:NEAR,
+      within:s.within,onWithin:set('within'),withinOpts:Object.keys(WITHIN),
+      lang:s.lang,onLang:set('lang'),langOpts:langs,billing:s.billing,onBilling:set('billing'),billingOpts:['Any','Insurance (in-network)','Direct billing','Superbill (out-of-network)'],
+      gender:s.gender,onGender:set('gender'),genderOpts:['Any','Woman','Man','Nonbinary'],
+      quickFocus:FOCI.map(f=>({label:f,onClick:()=>this.go('results',{focus:[f]})})),
+      focusChips:FOCI.map(f=>chip(f,s.focus.includes(f),()=>this.tog('focus',f))),
+      ageChips:AGES.map(a=>chip(a,s.ages.includes(a),()=>this.tog('ages',a))),
+      toggles:[['Virtual visits','virtual'],['Accepting new patients','accepting'],['Neurodivergent practitioner','ndId']].map(([label,k])=>({label,on:s[k],onClick:flip(k),track:s[k]?'#54725A':'#CFC6E6',knob:s[k]?'21px':'3px'})),
+      guideWho:who.map(([l,a])=>chip(l,s.guideWho===l,()=>this.setState({guideWho:l,ages:a}))),
+      guideMeet:meet.map(m=>chip(m,s.guideMeet===m,()=>this.setState({guideMeet:m,virtual:m==='Virtual',within:m==='In person'?'100 km (60 mi)':'Any distance'}))),
+      showCountLabel:n?'Show '+n+(n===1?' doctor':' doctors'):'No matches yet',
+      resetFilters:()=>this.setState({...BLANK}),
+      countLabel:n+(n===1?' doctor':' doctors'),nearLabel:s.near==='Anywhere'?'across the US and Canada':'near '+s.near,
+      isList:s.view==='list',isMap:s.view==='map',listBg:s.view==='list'?'#FFFFFF':'transparent',mapBg:s.view==='map'?'#FFFFFF':'transparent',
+      setList:()=>this.setState({view:'list'}),setMap:()=>this.setState({view:'map'}),
+      isEmpty:!n,showList:n>0&&s.view==='list',showMap:n>0&&s.view==='map',docs,sel,hasSel:!!sel,
+      p,formTitle:isContact?'Your message':'Message '+pd.name,
+      docOpts:['Help me choose',...DOCS.map(d=>d.name)],cDoc:s.cDoc,onCDoc:set('cDoc'),
+      forChips:['Myself','My child',"A patient I'm referring"].map(l=>chip(l,s.cFor===l,()=>this.setState({cFor:l}))),
+      replyChips:['Email','Phone'].map(l=>chip(l,s.cReply===l,()=>this.setState({cReply:l}))),
+      notSent:!s.sent,sent:s.sent,onSend:e=>{e.preventDefault();this.setState({sent:true});},
+      sentLine:sentTo+' usually replies within 2 business days, by '+s.cReply.toLowerCase()+'.',
+      sendAnother:()=>this.setState({sent:false}),
+      joinNotSent:!s.joinSent,joinSent:s.joinSent,onJoin:e=>{e.preventDefault();this.setState({joinSent:true});window.scrollTo(0,0);},
+      joinAgeChips:AGES.map(a=>chip(a,s.joinAges.includes(a),()=>this.tog('joinAges',a))),
+      joinFocusChips:FOCI.map(f=>chip(f,s.joinFocus.includes(f),()=>this.tog('joinFocus',f))),
+      joinVisitChips:['In person','Virtual'].map(v=>chip(v,s.joinVisits.includes(v),()=>this.tog('joinVisits',v))),
+      layoutOpts:[['A','A · Search-first'],['B','B · Guided'],['C','C · Map-first']].map(([k,l])=>({label:l,on:s.layout===k,onClick:()=>this.setLayout(k),bg:s.layout===k?'#342468':'transparent',fg:s.layout===k?'#FFFFFF':'#342468'}))
+    };
+  }
+}
+</script>
+</body>
+</html>
